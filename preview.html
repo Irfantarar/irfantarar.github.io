@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Muhammad Irfan Tarar | Consultant – iOS Development</title>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  background:#05060a;
+  color:white;
+}
+
+/* background */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* layout */
+.container{
+  max-width:1050px;
+  margin:auto;
+  padding:30px 18px;
+}
+
+/* hero */
+.hero{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding-top:30px;
+}
+
+.profile{
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  border:2px solid rgba(96,165,250,0.5);
+  object-fit:cover;
+  object-position:center 20%;
+  box-shadow:0 0 25px rgba(96,165,250,0.25);
+  animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-5px);}
+}
+
+/* title */
+h1{
+  margin:0;
+  font-size:42px;
+  background:linear-gradient(90deg,#60a5fa,#a78bfa,#34d399);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.sub{
+  opacity:0.7;
+  font-size:14px;
+  margin-top:4px;
+}
+
+/* sections */
+.section-title{
+  margin:26px 0 10px;
+  font-size:16px;
+  opacity:0.9;
+}
+.section-head .section-title{
+  margin:0;
+}
+
+/* grid */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  align-items:stretch;
+}
+.grid.projects-grid > .card{
+  height:100%;
+  box-sizing:border-box;
+}
+
+/* card */
+.card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:14px;
+  border-radius:12px;
+  transition:0.35s;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.card:hover{
+  transform:translateY(-6px) scale(1.01);
+  border-color:rgba(96,165,250,0.4);
+  box-shadow:0 20px 50px rgba(0,0,0,0.4);
+}
+
+/* badges */
+.badge{
+  font-size:11px;
+  padding:3px 7px;
+  background:rgba(96,165,250,0.15);
+  color:#60a5fa;
+  border-radius:10px;
+  display:inline-block;
+  margin-top:6px;
+}
+
+/* section heading with icon */
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:26px 0 10px;
+}
+.section-icon{
+  width:22px;
+  height:22px;
+  flex-shrink:0;
+  stroke:#60a5fa;
+  fill:none;
+  stroke-width:1.75;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  animation:iconGlow 3s ease-in-out infinite;
+}
+@keyframes iconGlow{
+  0%,100%{filter:drop-shadow(0 0 2px rgba(96,165,250,0.35));}
+  50%{filter:drop-shadow(0 0 8px rgba(96,165,250,0.55));}
+}
+
+/* contact */
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;
+}
+.contact-link{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:16px 18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px;
+  color:inherit;
+  text-decoration:none;
+  transition:transform 0.35s cubic-bezier(.2,.8,.2,1),border-color 0.35s,box-shadow 0.35s,background 0.35s;
+}
+.contact-link:hover{
+  transform:translateY(-4px);
+  border-color:rgba(96,165,250,0.45);
+  background:rgba(96,165,250,0.08);
+  box-shadow:0 16px 40px rgba(0,0,0,0.35),0 0 0 1px rgba(96,165,250,0.15);
+}
+.contact-link:focus-visible{
+  outline:2px solid #60a5fa;
+  outline-offset:3px;
+}
+.contact-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(96,165,250,0.12);
+  border:1px solid rgba(96,165,250,0.25);
+  flex-shrink:0;
+}
+.contact-body{
+  flex:1;
+  min-width:0;
+}
+.contact-icon svg{
+  width:22px;
+  height:22px;
+  stroke:#93c5fd;
+  fill:none;
+  stroke-width:1.75;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.contact-icon svg.contact-svg-fill{
+  fill:#93c5fd;
+  stroke:none;
+}
+.contact-link:hover .contact-icon{
+  background:rgba(96,165,250,0.2);
+  animation:iconBounce 0.6s ease;
+}
+@keyframes iconBounce{
+  0%{transform:scale(1);}
+  40%{transform:scale(1.08) rotate(-3deg);}
+  70%{transform:scale(1.05) rotate(2deg);}
+  100%{transform:scale(1);}
+}
+.contact-icon .mail-stroke{
+  stroke-dasharray:48;
+  stroke-dashoffset:0;
+  animation:mailDraw 4s ease-in-out infinite;
+}
+@keyframes mailDraw{
+  0%,100%{stroke-dashoffset:0;}
+  50%{stroke-dashoffset:8;}
+}
+.contact-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  opacity:0.65;
+  margin-bottom:4px;
+}
+.contact-value{
+  font-size:15px;
+  font-weight:500;
+  word-break:break-all;
+  line-height:1.35;
+  color:#e2e8f0;
+}
+.contact-arrow{
+  margin-left:auto;
+  align-self:center;
+  opacity:0.4;
+  transition:transform 0.35s,opacity 0.35s;
+}
+.contact-link:hover .contact-arrow{
+  opacity:1;
+  transform:translateX(4px);
+}
+
+/* AI / web tool cards */
+.tool-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+@media(max-width:800px){
+  .tool-row{grid-template-columns:1fr;}
+}
+.tool-card{
+  position:relative;
+  overflow:hidden;
+}
+.tool-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(96,165,250,0.06),transparent 55%);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.4s;
+}
+.tool-card:hover::before{
+  opacity:1;
+}
+.tool-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+.tool-logo{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.tool-logo svg{
+  width:20px;
+  height:20px;
+}
+.tool-logo.cursor-logo svg{
+  stroke:#a78bfa;
+  fill:none;
+  stroke-width:1.6;
+}
+.tool-logo.copilot-logo svg{
+  fill:none;
+  stroke:#34d399;
+  stroke-width:1.75;
+  stroke-linecap:round;
+}
+.tool-card:hover .tool-logo{
+  animation:toolIconPulse 1.4s ease-in-out infinite;
+}
+@keyframes toolIconPulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.06);}
+}
+
+/* animation */
+.fade{
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.8s cubic-bezier(.2,.8,.2,1);
+}
+
+.fade.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .section-icon,
+  .contact-icon .mail-stroke,
+  .tool-card:hover .tool-logo,
+  .profile{
+    animation:none !important;
+  }
+  .card,
+  .contact-link{
+    transition-duration:0.01ms;
+  }
+}
+
+/* responsive */
+@media(max-width:800px){
+  .grid{grid-template-columns:1fr;}
+  .hero{flex-direction:column; align-items:flex-start;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="hero fade">
+  <img class="profile" alt="Muhammad Irfan Tarar" width="349" height="400" decoding="async" loading="lazy" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBARXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAABXaADAAQAAAABAAABkAAAAAD/7QA4UGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAA4QklNBCUAAAAAABDUHYzZjwCyBOmACZjs+EJ+/+IB2ElDQ19QUk9GSUxFAAEBAAAByAAAAAAEMAAAbW50clJHQiBYWVogB+AAAQABAAAAAAAAYWNzcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJZGVzYwAAAPAAAAAkclhZWgAAARQAAAAUZ1hZWgAAASgAAAAUYlhZWgAAATwAAAAUd3RwdAAAAVAAAAAUclRSQwAAAWQAAAAoZ1RSQwAAAWQAAAAoYlRSQwAAAWQAAAAoY3BydAAAAYwAAAA8bWx1YwAAAAAAAAABAAAADGVuVVMAAAAIAAAAHABzAFIARwBCWFlaIAAAAAAAAG+iAAA49QAAA5BYWVogAAAAAAAAYpkAALeFAAAY2lhZWiAAAAAAAAAkoAAAD4QAALbPWFlaIAAAAAAAAPbWAAEAAAAA0y1wYXJhAAAAAAAEAAAAAmZmAADypwAADVkAABPQAAAKWwAAAAAAAAAAbWx1YwAAAAAAAAABAAAADGVuVVMAAAAgAAAAHABHAG8AbwBnAGwAZQAgAEkAbgBjAC4AIAAyADAAMQA2/8AAEQgBkAFdAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/bAEMAAgICAgICAwICAwUDAwMFBgUFBQUGCAYGBgYGCAoICAgICAgKCgoKCgoKCgwMDAwMDA4ODg4ODw8PDw8PDw8PD//bAEMBAgICBAQEBwQEBxALCQsQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEP/dAAQAFv/aAAwDAQACEQMRAD8A/fyiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9D9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/0f38ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//S/fyiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9P9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoqvdXVtZW8l1dyrDDECzO5wqgdyTX5/fHH9u3w34FuLjQ/AlsmrahBkPNK22FCPQdSfT1rOpVjHdnVhcFUrO1NH6CTTwwIZJnEaDqWOAPzrjJviN4Oglmjm1OGNYPvu7hUGPcnFfgN48/bA+MnjbzpdZ8QSW1pn5YLVVhX2HyjJP1NfOuo/EXxLqbifWNQmmDfMkJkYgD1Y9z7Vnz1G/dWh60Mlil+8nr5H9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"/>
+  <div>
+    <h1>Muhammad Irfan Tarar</h1>
+    <div class="sub">Consultant – App Development (iOS) • Systems Limited • Vodafone Qatar</div>
+    <div class="sub">Swift • SwiftUI • Objective-C • UIKit • Flutter • RxSwift • Firebase • CI/CD</div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+  <div class="section-title">Professional Summary</div>
+</div>
+<div class="card fade">
+Experienced software engineer with <b>four years</b> in iOS application development. Proficient in <b>Swift, SwiftUI, and Objective-C</b>, with hands-on practice across requirements analysis, design, implementation, and troubleshooting. Works closely with engineering, product, and QA to deliver high-quality, scalable experiences for <b>iPhone, iPad, and tvOS</b>, covering the full SDLC—including client engagement and production support.<br><br>
+
+<b>Education:</b> BSc Computer Science, Superior University, Lahore.<br><br>
+
+<b>Current focus:</b> Consultant – App Development (iOS) at <b>Systems Limited</b>, shipping and evolving the <b>Vodafone Qatar</b> app—a full digital telecom experience for consumers and businesses (lines, eSIM/SIM, devices, and account management), including <b>embedded Flutter modules and screens</b> inside the iOS app, with emphasis on performance, DevOps-backed delivery, and scalable architecture.
+</div>
+
+<!-- EXPERIENCE -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v4"/><path d="M10 14h4"/></svg>
+  <div class="section-title">Experience</div>
+</div>
+<div class="grid">
+
+<div class="card fade">
+<b>Consultant – App Development (iOS)</b><br>
+<span class="badge">Systems Limited (Jan 2024 – Present)</span><br><br>
+Vodafone Qatar app: native iOS plus embedded Flutter modules (screens + platform channels), requirements through release, performance tuning, DevOps-aligned delivery
+</div>
+
+<div class="card fade">
+<b>Junior Consultant – App Development (iOS)</b><br>
+<span class="badge">Systems Limited (May 2022 – Jan 2024)</span><br><br>
+Feature development, Firebase, REST APIs, MVVM architecture, CI/CD pipelines
+</div>
+
+<div class="card fade">
+<b>Associate Software Engineer</b><br>
+<span class="badge">Digipal Agency (Mar 2021 – May 2022)</span><br><br>
+UIKit apps, API integration, UI development, performance optimization
+</div>
+
+</div>
+
+<!-- PROJECTS -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+  <div class="section-title">Engineering Case Studies</div>
+</div>
+
+<div class="grid projects-grid">
+
+<div class="card fade">
+📱 <b>Vodafone Qatar – Enterprise Telecom Super App</b><br>
+<span class="badge">Systems Limited | Flagship Project</span><br><br>
+
+<b>Domain:</b> Telecom / Digital services for consumers &amp; businesses (Qatar)<br><br>
+
+<b>Engineering Contributions (Native iOS):</b><br>
+• Requirements analysis and significant app updates for core telecom journeys (lines, eSIM/SIM, devices, password-free flows)<br>
+• Performance tuning and reliable integration with backend services in production<br>
+• DevOps-aligned delivery with the team (GitLab, Fastlane, Jira, Firebase)<br><br>
+
+<b>Flutter (embedded in iOS):</b><br>
+• Built Flutter UI screens and imported Flutter modules into the native Vodafone Qatar iOS app<br>
+• Integrated modules via platform channels (Swift ↔ Dart), hybrid navigation, and lifecycle/state sync with the host app<br>
+• Tuned embedded Flutter for production performance alongside native Swift/SwiftUI flows<br><br>
+
+<b>Technical Focus:</b><br>
+Swift • SwiftUI • Dart • Flutter • Platform Channels • RxSwift • Firebase • Xcode • GitLab • Jira • Fastlane<br><br>
+
+<b>Impact:</b><br>
+• Faster rollout of cross-platform UI while staying inside a single shipped iOS binary<br>
+• Stronger architecture for ongoing telecom features and a smoother end-user experience<br>
+</div>
+
+<div class="card fade">
+💳 <b>Finca Pay – Fintech Application</b><br>
+<span class="badge">Secure Payments System</span><br><br>
+
+<b>Domain:</b> Financial Services / Mobile Payments<br><br>
+
+<b>Engineering Contributions:</b><br>
+• Implemented secure payment flow integrations using REST APIs<br>
+• Worked on transaction lifecycle handling (initiation → processing → confirmation)<br>
+• Integrated backend APIs for wallet balance, transfers, and payment status<br>
+• Improved reliability of payment-related user journeys<br><br>
+
+<b>Technical Focus:</b><br>
+• Secure API communication handling<br>
+• Error handling for financial transactions<br>
+• State management for transaction flows<br>
+• Performance tuning for fast response UI updates<br><br>
+
+<b>Impact:</b><br>
+• Improved stability of payment workflows<br>
+• Reduced failure cases in transaction UI flows<br>
+</div>
+
+<div class="card fade">
+💰 <b>MyCash – Financial Wallet App</b><br>
+<span class="badge">Digital Wallet System</span><br><br>
+
+<b>Domain:</b> Digital Wallet / Fintech Services<br><br>
+
+<b>Engineering Contributions:</b><br>
+• Enhanced wallet feature modules (balance, transactions, history)<br>
+• Integrated backend APIs for wallet operations and user profiles<br>
+• Improved UI flows for smoother financial operations<br>
+• Worked on optimizing app responsiveness for frequent API calls<br><br>
+
+<b>Technical Focus:</b><br>
+• API integration & data mapping<br>
+• UI state synchronization with backend<br>
+• Performance optimization for wallet updates<br><br>
+
+<b>Impact:</b><br>
+• Improved user experience for financial operations<br>
+• Increased reliability of wallet data synchronization<br>
+</div>
+
+<div class="card fade">
+🕌 <b>Islam360</b><br>
+<span class="badge">Content Platform</span><br><br>
+
+<b>Domain:</b> Content / Educational Utility App<br><br>
+
+<b>Engineering Contributions:</b><br>
+• Developed and enhanced feature modules for content browsing<br>
+• Optimized performance for large dataset rendering (text-heavy content)<br>
+• Improved offline/low-latency content access experience<br>
+• Enhanced UI responsiveness for scroll-heavy screens<br><br>
+
+<b>Technical Focus:</b><br>
+• Large dataset rendering optimization<br>
+• Memory/performance tuning<br>
+• UI smooth scrolling performance improvements<br><br>
+
+<b>Impact:</b><br>
+• Improved app responsiveness under heavy content load<br>
+</div>
+
+<div class="card fade">
+📦 <b>NEJWMS</b><br>
+<span class="badge">Enterprise Logistics System</span><br><br>
+
+<b>Domain:</b> Warehouse & Logistics Management<br><br>
+
+<b>Engineering Contributions:</b><br>
+• Improved workflow screens for warehouse operations<br>
+• Enhanced UI usability for operational staff<br>
+• Worked on data-driven dashboards and forms<br>
+• Optimized app responsiveness for enterprise users<br><br>
+
+<b>Technical Focus:</b><br>
+• Form-heavy UI optimization<br>
+• Workflow state management<br>
+• Enterprise UX improvements<br><br>
+
+<b>Impact:</b><br>
+• Reduced operational friction in warehouse processes<br>
+• Improved usability for field users<br>
+</div>
+
+<div class="card fade">
+🏥 <b>THAIS</b><br>
+<span class="badge">Healthcare System</span><br><br>
+
+<b>Domain:</b> Healthcare Appointment Management<br><br>
+
+<b>Engineering Contributions:</b><br>
+• Developed appointment booking and scheduling flows<br>
+• Integrated backend APIs for doctor/patient data<br>
+• Improved UI/UX for appointment management screens<br>
+• Enhanced system reliability for booking operations<br><br>
+
+<b>Technical Focus:</b><br>
+• Calendar & scheduling logic<br>
+• API-driven UI updates<br>
+• Form validation and workflow handling<br><br>
+
+<b>Impact:</b><br>
+• Improved appointment booking experience<br>
+• Reduced user friction in scheduling flows<br>
+</div>
+
+</div>
+
+<!-- SYSTEM DESIGN -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
+  <div class="section-title">System Design</div>
+</div>
+<div class="card fade">
+Mobile App (Swift/Flutter) → API Gateway → Microservices → Backend Systems<br><br>
+Focus: scalability, modular architecture, caching, performance tuning, production reliability, event-driven flows
+</div>
+
+<!-- SKILLS -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+  <div class="section-title">Technical Skills</div>
+</div>
+
+<div class="card fade">
+<b>Mobile Development:</b><br>
+Swift • Objective-C • SwiftUI • UIKit • Flutter • Dart • RxSwift<br><br>
+
+<b>Flutter Expertise:</b><br>
+• Hybrid app development inside native iOS apps<br>
+• Platform Channels (Swift ↔ Dart communication)<br>
+• Flutter module embedding in production iOS apps<br>
+• State management and lifecycle handling<br>
+• Performance optimization for hybrid apps<br><br>
+
+<b>Backend & Architecture:</b><br>
+REST APIs • Firebase • MVVM • Clean Architecture<br><br>
+
+<b>DevOps & Tools:</b><br>
+CI/CD • Jenkins • Fastlane • Git • Xcode<br><br>
+
+<b>Engineering Focus:</b><br>
+System Design • Scalability • Production Debugging • Performance Optimization
+</div>
+
+<!-- WEB EXPERIENCE -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+  <div class="section-title">Website &amp; Digital Experience</div>
+</div>
+<div class="card fade">
+<b>Modern web surfaces alongside mobile:</b><br>
+• Responsive layouts, semantic HTML/CSS, and component-style structure for marketing pages, internal tools, and documentation portals<br>
+• Alignment between mobile clients and web dashboards (shared API contracts, consistent UX patterns, error states)<br>
+• Performance-minded delivery: lazy-friendly assets, minimal blocking scripts, and fast iteration on UI polish<br>
+• Accessibility-aware patterns (focus order, contrast, readable typography) for inclusive professional experiences<br><br>
+<b>Outcome:</b> cohesive product storytelling and operational clarity across app + web touchpoints tied to the same backends.
+</div>
+
+<!-- AI TOOLS -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/><path d="m5.6 5.6 2.1 2.1"/><path d="m16.3 16.3 2.1 2.1"/><path d="m5.6 18.4 2.1-2.1"/><path d="m16.3 7.7 2.1-2.1"/><circle cx="12" cy="12" r="4"/></svg>
+  <div class="section-title">AI-Assisted Development</div>
+</div>
+<div class="tool-row">
+
+<div class="card fade tool-card">
+<div class="tool-head">
+<span class="tool-logo cursor-logo" aria-hidden="true">
+<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+</span>
+<b>Cursor</b>
+</div>
+Agentic editing, codebase-wide refactors, and chat grounded in your repo. Uses <b>Composer</b> and <b>rules</b> so iOS/Flutter patterns stay consistent—ideal for navigating large hybrid projects, platform channels, and multi-target builds with fast, reviewable diffs.
+</div>
+
+<div class="card fade tool-card">
+<div class="tool-head">
+<span class="tool-logo copilot-logo" aria-hidden="true">
+<svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/><path d="m4.93 4.93 14.14 14.14M19.07 4.93 4.93 19.07"/><circle cx="12" cy="12" r="3"/></svg>
+</span>
+<b>GitHub Copilot</b>
+</div>
+Inline completions and Copilot Chat inside the IDE for boilerplate, tests, and docstrings—great for accelerating Swift/SwiftUI and Dart snippets while you stay in the loop on architecture and production constraints.
+</div>
+
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
+  <div class="section-title">Certifications</div>
+</div>
+<div class="grid">
+
+<div class="card fade">iOS Development Advanced</div>
+<div class="card fade">Flutter Development</div>
+<div class="card fade">REST API Integration</div>
+<div class="card fade">Agile & Scrum</div>
+
+</div>
+
+<!-- CONTACT -->
+<div class="section-head fade">
+  <svg class="section-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  <div class="section-title">Contact</div>
+</div>
+<div class="contact-grid">
+
+<a class="contact-link fade" href="mailto:irfanchaudhry1006@gmail.com?subject=Hello%20Muhammad%20Irfan%20Tarar" aria-label="Send email to irfanchaudhry1006@gmail.com">
+  <span class="contact-icon">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path class="mail-stroke" d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  </span>
+  <span class="contact-body">
+    <div class="contact-label">Email</div>
+    <div class="contact-value">irfanchaudhry1006@gmail.com</div>
+  </span>
+  <span class="contact-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+</a>
+
+<a class="contact-link fade" href="tel:+923174430720" aria-label="Call Muhammad Irfan Tarar">
+  <span class="contact-icon">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  </span>
+  <span class="contact-body">
+    <div class="contact-label">Phone</div>
+    <div class="contact-value">+92 317 4430720</div>
+  </span>
+  <span class="contact-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+</a>
+
+<a class="contact-link fade" href="https://www.linkedin.com/in/irfantarar" target="_blank" rel="noopener noreferrer" aria-label="Open LinkedIn profile">
+  <span class="contact-icon">
+    <svg class="contact-svg-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+  </span>
+  <span class="contact-body">
+    <div class="contact-label">LinkedIn</div>
+    <div class="contact-value">linkedin.com/in/irfantarar</div>
+  </span>
+  <span class="contact-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+</a>
+
+<a class="contact-link fade" href="https://github.com/Irfantarar" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub profile">
+  <span class="contact-icon">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+  </span>
+  <span class="contact-body">
+    <div class="contact-label">GitHub</div>
+    <div class="contact-value">github.com/Irfantarar</div>
+  </span>
+  <span class="contact-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+/* 3D background */
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("bg"),alpha:true});
+renderer.setSize(innerWidth,innerHeight);
+
+const geo=new THREE.BufferGeometry();
+const count=6500;
+const pos=new Float32Array(count*3);
+
+for(let i=0;i<count*3;i++){
+  pos[i]=(Math.random()-0.5)*28;
+}
+
+geo.setAttribute("position",new THREE.BufferAttribute(pos,3));
+
+const mat=new THREE.PointsMaterial({
+  size:0.015,
+  color:0x60a5fa
+});
+
+const points=new THREE.Points(geo,mat);
+scene.add(points);
+
+camera.position.z=6;
+
+function animate(){
+  requestAnimationFrame(animate);
+  points.rotation.y+=0.0007;
+  renderer.render(scene,camera);
+}
+animate();
+
+/* animations */
+const elements=document.querySelectorAll(".fade");
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("active");
+    }
+  });
+},{threshold:0.15});
+
+elements.forEach(el=>observer.observe(el));
+
+</script>
+
+</body>
+</html>
